@@ -1,16 +1,30 @@
 "use client";
 
 import * as React from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn("rounded-xl border bg-card text-card-foreground shadow-sm", className)}
-      {...props}
-    />
-  ),
+  ({ className, onDrag, onDragStart, onDragEnd, onAnimationStart, ...props }, ref) => {
+    const reduce = useReducedMotion();
+    // Omit React drag/animation handlers — framer-motion defines its own signatures.
+    void onDrag;
+    void onDragStart;
+    void onDragEnd;
+    void onAnimationStart;
+    return (
+      <motion.div
+        ref={ref}
+        className={cn(
+          "rounded-xl border bg-card text-card-foreground shadow-sm transition-shadow duration-200 hover:shadow-md",
+          className,
+        )}
+        whileHover={reduce ? {} : { y: -3 }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        {...props}
+      />
+    );
+  },
 );
 Card.displayName = "Card";
 

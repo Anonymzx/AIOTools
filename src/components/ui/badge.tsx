@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
@@ -27,7 +28,22 @@ export interface BadgeProps
     VariantProps<typeof badgeVariants> {}
 
 function Badge({ className, variant, ...props }: BadgeProps): React.JSX.Element {
-  return <div className={cn(badgeVariants({ variant }), className)} {...props} />;
+  const reduce = useReducedMotion();
+  // Omit React drag/animation handlers — framer-motion defines its own signatures.
+  const { onDrag, onDragStart, onDragEnd, onAnimationStart, ...motionSafe } = props;
+  void onDrag;
+  void onDragStart;
+  void onDragEnd;
+  void onAnimationStart;
+  return (
+    <motion.div
+      className={cn(badgeVariants({ variant }), className)}
+      whileHover={reduce ? {} : { scale: 1.06 }}
+      whileTap={reduce ? {} : { scale: 0.95 }}
+      transition={{ type: "spring", stiffness: 400, damping: 20 }}
+      {...motionSafe}
+    />
+  );
 }
 
 export { Badge, badgeVariants };

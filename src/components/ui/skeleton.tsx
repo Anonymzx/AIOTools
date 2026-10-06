@@ -7,3 +7,4 @@ function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>)
 }
 
 export { Skeleton };
+export { Shimmer } from "@/components/ui/processing-state";
