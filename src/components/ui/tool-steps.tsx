@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Check, Cog, Download, Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -21,8 +21,7 @@ const ICONS = [Upload, Cog, Download];
  * Transform/opacity only (60fps), compact horizontal row.
  */
 export function ToolSteps({ stage, labels, className }: ToolStepsProps) {
-  const reduce = useReducedMotion();
-  const dur = (v: number) => (reduce ? 0 : v);
+  const dur = (v: number) => v;
 
   return (
     <ol
@@ -56,7 +55,7 @@ export function ToolSteps({ stage, labels, className }: ToolStepsProps) {
             <li className="flex w-16 shrink-0 flex-col items-center gap-1 text-center">
               <motion.span
                 key={`${i}-${on}`}
-                initial={{ scale: on && !reduce ? 0.6 : 1 }}
+                initial={{ scale: on ? 0.6 : 1 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 className={cn(

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer-motion";
+import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { ChevronDown, type LucideIcon } from "lucide-react";
 import { useLocale } from "@/lib/i18n/store";
 import {
@@ -50,6 +50,54 @@ import {
   ScanText,
   Info,
   Wrench,
+  Calculator,
+  CalendarDays,
+  Cake,
+  Gauge,
+  Landmark,
+  Percent,
+  Receipt,
+  BadgePercent,
+  Globe2,
+  Clock,
+  Fingerprint,
+  WholeWord,
+  FileCode2,
+  FileDown,
+  FileJson2,
+  Database,
+  FileCog,
+  Table,
+  TableProperties,
+  Link2,
+  Link,
+  Code2,
+  ListX,
+  ArrowDownAZ,
+  Replace,
+  AppWindow,
+  Share2,
+  Laugh,
+  Type,
+  Palette,
+  PaintBucket,
+  Square,
+  Columns3,
+  Camera,
+  Sparkles,
+  Languages,
+  FileAudio,
+  FileVideo,
+  MonitorPlay,
+  Timer,
+  Keyboard,
+  AlarmClock,
+  Dices,
+  Sigma,
+  ChartLine,
+  Network,
+  ShieldCheck,
+  Globe,
 } from "lucide-react";
 
 const TOOL_ICONS: Record<string, LucideIcon> = {
@@ -98,14 +146,64 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   FileCode,
   ScanText,
   Info,
+  Calculator,
+  CalendarDays,
+  Cake,
+  Gauge,
+  Landmark,
+  Percent,
+  Receipt,
+  BadgePercent,
+  Globe2,
+  Clock,
+  Fingerprint,
+  WholeWord,
+  FileCode2,
+  FileDown,
+  FileJson2,
+  Database,
+  FileCog,
+  Table,
+  TableProperties,
+  Link2,
+  Link,
+  Code2,
+  ListX,
+  ArrowDownAZ,
+  Replace,
+  AppWindow,
+  Share2,
+  Laugh,
+  Type,
+  Palette,
+  PaintBucket,
+  Square,
+  Columns3,
+  Camera,
+  Sparkles,
+  Languages,
+  FileAudio,
+  FileVideo,
+  MonitorPlay,
+  Timer,
+  Keyboard,
+  AlarmClock,
+  Dices,
+  Sigma,
+  ChartLine,
+  Network,
+  ShieldCheck,
+  Globe,
 };
 
 const SEO_CATEGORY_BY_PREFIX: Record<string, string> = {
   image: "MultimediaApplication",
+  media: "MultimediaApplication",
   pdf: "UtilitiesApplication",
   text: "UtilitiesApplication",
   developer: "DeveloperApplication",
   files: "UtilitiesApplication",
+  productivity: "UtilitiesApplication",
 };
 
 export interface FaqItem {
@@ -143,7 +241,6 @@ export default function ToolLayout({
   children,
 }: ToolLayoutProps) {
   const { locale, t } = useLocale();
-  const reduceMotion = useReducedMotion();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const Icon = TOOL_ICONS[iconName] ?? Wrench;
   const descText = locale === "id" && descriptionId ? descriptionId : description;
@@ -185,21 +282,54 @@ export default function ToolLayout({
         document.head.appendChild(script);
       }
       script.textContent = JSON.stringify(schema);
+
+      // FAQPage JSON-LD alongside SoftwareApplication (same slug guard above).
+      // No-op (removes stale tag) when the tool has no FAQ items.
+      try {
+        const existingFaq = document.querySelector<HTMLScriptElement>(
+          'script[data-toollayout-faqjsonld="true"]',
+        );
+        if (faq.length === 0) {
+          existingFaq?.remove();
+        } else {
+          let faqScript = existingFaq;
+          if (!faqScript) {
+            faqScript = document.createElement("script");
+            faqScript.type = "application/ld+json";
+            faqScript.setAttribute("data-toollayout-faqjsonld", "true");
+            document.head.appendChild(faqScript);
+          }
+          faqScript.textContent = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faq.map((item) => {
+              const text = locale === "id" ? item.id : item.en;
+              return {
+                "@type": "Question",
+                name: text.q,
+                acceptedAnswer: { "@type": "Answer", text: text.a },
+              };
+            }),
+          });
+        }
+      } catch {
+        // FAQ schema must never break the tool UI; fail silently.
+      }
     } catch {
       // SEO head injection must never break the tool UI; fail silently.
     }
-  }, [title, slug, descText]);
+  }, [title, slug, descText, faq, locale]);
 
   return (
     <motion.div
-      variants={reduceMotion ? undefined : containerVariants}
-      initial={reduceMotion ? false : "hidden"}
-      animate={reduceMotion ? undefined : "show"}
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
       className="mx-auto w-full max-w-4xl px-4 py-8 sm:px-6"
     >
       {/* Header */}
       <motion.div
-        variants={reduceMotion ? undefined : itemVariants}
+        variants={itemVariants}
         className="text-center"
       >
         <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-sm">
@@ -215,7 +345,7 @@ export default function ToolLayout({
 
       {/* Tool area */}
       <motion.div
-        variants={reduceMotion ? undefined : itemVariants}
+        variants={itemVariants}
         className="mt-6"
       >
         {children}
@@ -245,11 +375,7 @@ export default function ToolLayout({
                     <span className="min-w-0 flex-1">{text.q}</span>
                     <motion.span
                       animate={{ rotate: open ? 180 : 0 }}
-                      transition={
-                        reduceMotion
-                          ? { duration: 0 }
-                          : { type: "spring", stiffness: 350, damping: 28 }
-                      }
+                      transition={{ type: "spring", stiffness: 350, damping: 28 }}
                       className="flex shrink-0"
                       aria-hidden
                     >
@@ -263,7 +389,7 @@ export default function ToolLayout({
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: reduceMotion ? 0 : 0.28, ease: "easeInOut" }}
+                        transition={{ duration: 0.28, ease: "easeInOut" }}
                         className="overflow-hidden"
                       >
                         <p className="border-t border-zinc-100 px-4 py-3 text-sm leading-relaxed text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">

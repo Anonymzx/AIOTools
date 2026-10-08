@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export interface AnimatedTabDef {
@@ -19,7 +19,6 @@ interface AnimatedTabsProps {
 }
 
 export function AnimatedTabs({ tabs, value, onChange, ariaLabel, className }: AnimatedTabsProps) {
-  const reduce = useReducedMotion();
   return (
     <div
       role="tablist"
@@ -39,7 +38,7 @@ export function AnimatedTabs({ tabs, value, onChange, ariaLabel, className }: An
             role="tab"
             aria-selected={active}
             onClick={() => onChange(t.id)}
-            whileTap={reduce ? undefined : { scale: 0.97 }}
+            whileTap={{ scale: 0.97 }}
             className={cn(
               "relative flex items-center justify-center gap-1.5 rounded-lg px-2 py-2 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600",
               active
@@ -50,9 +49,7 @@ export function AnimatedTabs({ tabs, value, onChange, ariaLabel, className }: An
             {active && (
               <motion.span
                 layoutId="tab-pill"
-                transition={
-                  reduce ? { duration: 0 } : { type: "spring", stiffness: 350, damping: 32 }
-                }
+                transition={{ type: "spring", stiffness: 350, damping: 32 }}
                 className="absolute inset-0 rounded-lg bg-white shadow dark:bg-zinc-950"
                 aria-hidden
               />
@@ -75,15 +72,14 @@ interface AnimatedTabPanelProps {
 }
 
 export function AnimatedTabPanel({ tabKey, children, className }: AnimatedTabPanelProps) {
-  const reduce = useReducedMotion();
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={tabKey}
-        initial={reduce ? { opacity: 0 } : { opacity: 0, y: 8 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
-        transition={{ duration: reduce ? 0 : 0.18, ease: "easeOut" }}
+        exit={{ opacity: 0, y: -8 }}
+        transition={{ duration: 0.18, ease: "easeOut" }}
         className={className}
       >
         {children}

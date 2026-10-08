@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -57,12 +57,11 @@ export function AnimatedButton({
   onClick,
   ...props
 }: AnimatedButtonProps) {
-  const reduce = useReducedMotion();
   const [ripples, setRipples] = React.useState<Ripple[]>([]);
   const isDisabled = disabled || loading;
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!reduce && !isDisabled) {
+    if (!isDisabled) {
       const rect = e.currentTarget.getBoundingClientRect();
       const sizePx = Math.max(rect.width, rect.height) * 2;
       const x = e.clientX - rect.left - sizePx / 2;
@@ -79,8 +78,8 @@ export function AnimatedButton({
   return (
     <motion.button
       type="button"
-      whileHover={reduce || isDisabled ? undefined : { scale: 1.02, y: -2 }}
-      whileTap={reduce || isDisabled ? undefined : { scale: 0.98 }}
+      whileHover={isDisabled ? undefined : { scale: 1.02, y: -2 }}
+      whileTap={isDisabled ? undefined : { scale: 0.98 }}
       transition={{ type: "spring", stiffness: 400, damping: 20 }}
       disabled={isDisabled}
       aria-busy={loading || undefined}
@@ -88,18 +87,17 @@ export function AnimatedButton({
       className={cn(baseClasses, variantClasses[variant], sizeClasses[size], className)}
       {...props}
     >
-      {!reduce &&
-        ripples.map((r) => (
-          <motion.span
-            key={r.id}
-            className="pointer-events-none absolute rounded-full bg-current opacity-30"
-            style={{ left: r.x, top: r.y, width: r.size, height: r.size }}
-            initial={{ scale: 0, opacity: 0.35 }}
-            animate={{ scale: 1, opacity: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            aria-hidden
-          />
-        ))}
+      {ripples.map((r) => (
+        <motion.span
+          key={r.id}
+          className="pointer-events-none absolute rounded-full bg-current opacity-30"
+          style={{ left: r.x, top: r.y, width: r.size, height: r.size }}
+          initial={{ scale: 0, opacity: 0.35 }}
+          animate={{ scale: 1, opacity: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          aria-hidden
+        />
+      ))}
       {loading && (
         <motion.span
           className="flex items-center justify-center"
@@ -138,12 +136,11 @@ export function IconButton({
   children,
   ...props
 }: IconButtonProps) {
-  const reduce = useReducedMotion();
   return (
     <motion.button
       type="button"
-      whileHover={reduce || props.disabled ? undefined : { scale: 1.02, y: -2 }}
-      whileTap={reduce || props.disabled ? undefined : { scale: 0.98 }}
+      whileHover={props.disabled ? undefined : { scale: 1.02, y: -2 }}
+      whileTap={props.disabled ? undefined : { scale: 0.98 }}
       transition={{ type: "spring", stiffness: 400, damping: 20 }}
       aria-label={label}
       title={label}

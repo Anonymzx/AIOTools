@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface MarqueeProps {
@@ -21,20 +21,10 @@ const CHIP_CLS =
  * Reduced motion → static wrapped row. Transform-only (60fps).
  */
 export function Marquee({ items, speed = 30, className }: MarqueeProps) {
-  const reduce = useReducedMotion();
+  // NOTE: never branch DOM on `reduce` (server renders motion version;
+  // a reduced-motion client would render different HTML → hydration error).
+  // MotionConfig reducedMotion="user" freezes the loop animation globally.
   const [paused, setPaused] = useState(false);
-
-  if (reduce) {
-    return (
-      <div className={cn("flex flex-wrap items-center gap-2", className)} role="list">
-        {items.map((item, i) => (
-          <span key={`${item}-${i}`} role="listitem" className={CHIP_CLS}>
-            {item}
-          </span>
-        ))}
-      </div>
-    );
-  }
 
   const row = (hidden: boolean) => (
     <div className="flex shrink-0 items-center" aria-hidden={hidden}>

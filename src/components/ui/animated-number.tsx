@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useEffect, useRef } from "react";
-import { useInView, useReducedMotion } from "framer-motion";
+import { useInView } from "framer-motion";
 
 export interface AnimatedNumberProps {
   value: number;
@@ -19,7 +19,6 @@ function defaultFormat(n: number): string {
 }
 
 export function AnimatedNumber({ value, format, className }: AnimatedNumberProps): React.JSX.Element {
-  const reduce = useReducedMotion();
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10px" });
   // Hydration-safe: server + first client render both show format(0).
@@ -31,10 +30,6 @@ export function AnimatedNumber({ value, format, className }: AnimatedNumberProps
     if (!el || !inView) return;
     let raf = 0;
     try {
-      if (reduce) {
-        el.textContent = fmt(target);
-        return;
-      }
       const from = 0;
       const start = performance.now();
       const dur = 700;
@@ -66,7 +61,7 @@ export function AnimatedNumber({ value, format, className }: AnimatedNumberProps
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView, target, reduce]);
+  }, [inView, target]);
 
   return (
     <span ref={ref} className={className}>

@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { cva, type VariantProps } from "class-variance-authority";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +19,6 @@ const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
 >(({ className, ...props }, ref) => {
-  const reduce = useReducedMotion();
   return (
     <SheetPrimitive.Overlay ref={ref} asChild {...props}>
       <motion.div
@@ -30,7 +29,7 @@ const SheetOverlay = React.forwardRef<
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: reduce ? 0 : 0.2 }}
+        transition={{ duration: 0.2 }}
       />
     </SheetPrimitive.Overlay>
   );
@@ -59,7 +58,6 @@ const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
   SheetContentProps
 >(({ side = "right", className, children, ...props }, ref) => {
-  const reduce = useReducedMotion();
   const offset =
     side === "left"
       ? { x: "-40px", y: "0px" }
@@ -74,12 +72,10 @@ const SheetContent = React.forwardRef<
       <SheetPrimitive.Content ref={ref} asChild {...props}>
         <motion.div
           className={cn(sheetVariants({ side }), className)}
-          initial={{ opacity: 0, x: reduce ? "0px" : offset.x, y: reduce ? "0px" : offset.y }}
+          initial={{ opacity: 0, x: offset.x, y: offset.y }}
           animate={{ opacity: 1, x: "0px", y: "0px" }}
-          exit={{ opacity: 0, x: reduce ? "0px" : offset.x, y: reduce ? "0px" : offset.y }}
-          transition={
-            reduce ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 30 }
-          }
+          exit={{ opacity: 0, x: offset.x, y: offset.y }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
           {children}
           <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">

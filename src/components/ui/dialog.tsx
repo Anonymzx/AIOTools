@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -18,7 +18,6 @@ const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => {
-  const reduce = useReducedMotion();
   return (
     <DialogPrimitive.Overlay ref={ref} asChild {...props}>
       <motion.div
@@ -29,7 +28,7 @@ const DialogOverlay = React.forwardRef<
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: reduce ? 0 : 0.2 }}
+        transition={{ duration: 0.2 }}
       />
     </DialogPrimitive.Overlay>
   );
@@ -40,7 +39,6 @@ const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
-  const reduce = useReducedMotion();
   return (
     <DialogPortal>
       <DialogOverlay />
@@ -52,20 +50,18 @@ const DialogContent = React.forwardRef<
           )}
           initial={{
             opacity: 0,
-            scale: reduce ? 1 : 0.9,
+            scale: 0.9,
             x: "-50%",
-            y: reduce ? "-50%" : "calc(-50% + 20px)",
+            y: "calc(-50% + 20px)",
           }}
           animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
           exit={{
             opacity: 0,
-            scale: reduce ? 1 : 0.9,
+            scale: 0.9,
             x: "-50%",
-            y: reduce ? "-50%" : "calc(-50% + 20px)",
+            y: "calc(-50% + 20px)",
           }}
-          transition={
-            reduce ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 30 }
-          }
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
           {children}
           <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">

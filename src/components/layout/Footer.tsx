@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Zap, ShieldCheck } from "lucide-react";
 import { categories, tools, getCategoryName } from "@/lib/tools-config";
 import { useLocale } from "@/lib/i18n/store";
@@ -24,7 +24,6 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
 
 export default function Footer() {
   const { locale, t } = useLocale();
-  const reduce = useReducedMotion();
 
   return (
     <footer className="border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
@@ -58,11 +57,11 @@ export default function Footer() {
               return (
                 <motion.li
                   key={cat.id}
-                  initial={reduce ? { opacity: 0 } : { opacity: 0, y: 8 }}
+                  initial={{ opacity: 0, y: 8 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-20px" }}
-                  transition={reduce ? { duration: 0 } : { duration: 0.3, delay: i * 0.05 }}
-                  whileHover={reduce ? {} : { x: 3 }}
+                  transition={{ duration: 0.3, delay: i * 0.05 }}
+                  whileHover={{ x: 3 }}
                 >
                   <FooterLink href={href}>{getCategoryName(cat, locale)}</FooterLink>
                 </motion.li>
@@ -85,11 +84,11 @@ export default function Footer() {
             ].map((l, i) => (
               <motion.li
                 key={l.href + l.label}
-                initial={reduce ? { opacity: 0 } : { opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: 8 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-20px" }}
-                transition={reduce ? { duration: 0 } : { duration: 0.3, delay: i * 0.05 }}
-                whileHover={reduce ? {} : { x: 3 }}
+                transition={{ duration: 0.3, delay: i * 0.05 }}
+                whileHover={{ x: 3 }}
               >
                 <FooterLink href={l.href}>{l.label}</FooterLink>
               </motion.li>
@@ -101,7 +100,10 @@ export default function Footer() {
       <div className="border-t border-zinc-200 dark:border-zinc-800">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-1 px-4 py-4 text-xs text-zinc-400 sm:flex-row sm:px-6 dark:text-zinc-500">
           <p>{t.footer.rights}</p>
-          <p>100% Client-Side • {t.footer.privacyNote}</p>
+          <p>
+            100% Client-Side • {t.footer.privacyNote} •{" "}
+            <FooterLink href="/privacy">{locale === "id" ? "Privasi" : "Privacy"}</FooterLink>
+          </p>
         </div>
       </div>
     </footer>

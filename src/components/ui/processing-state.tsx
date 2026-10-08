@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface ProcessingBarProps {
@@ -10,7 +10,6 @@ interface ProcessingBarProps {
 }
 
 export function ProcessingBar({ progress, label, className }: ProcessingBarProps) {
-  const reduceMotion = useReducedMotion();
   const clamped = Math.min(100, Math.max(0, Math.round(progress)));
 
   return (
@@ -35,16 +34,8 @@ export function ProcessingBar({ progress, label, className }: ProcessingBarProps
         >
           <motion.div
             initial={false}
-            animate={
-              reduceMotion
-                ? { backgroundPosition: "0% 50%" }
-                : { backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }
-            }
-            transition={
-              reduceMotion
-                ? { duration: 0 }
-                : { duration: 2.5, repeat: Infinity, ease: "linear" }
-            }
+            animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
             style={{ backgroundSize: "200% 100%" }}
             className="h-full w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-500"
           />
@@ -60,8 +51,6 @@ interface ProcessingDotsProps {
 }
 
 export function ProcessingDots({ label, className }: ProcessingDotsProps) {
-  const reduceMotion = useReducedMotion();
-
   return (
     <div
       className={cn("flex items-center gap-1.5", className)}
@@ -72,12 +61,8 @@ export function ProcessingDots({ label, className }: ProcessingDotsProps) {
         <motion.span
           key={d}
           initial={false}
-          animate={reduceMotion ? { y: 0, opacity: 1 } : { y: [0, -6, 0], opacity: [1, 0.6, 1] }}
-          transition={
-            reduceMotion
-              ? { duration: 0 }
-              : { duration: 0.9, repeat: Infinity, ease: "easeInOut", delay: d * 0.15 }
-          }
+          animate={{ y: [0, -6, 0], opacity: [1, 0.6, 1] }}
+          transition={{ duration: 0.9, repeat: Infinity, ease: "easeInOut", delay: d * 0.15 }}
           className="h-2 w-2 rounded-full bg-indigo-500 dark:bg-indigo-400"
         />
       ))}
@@ -94,18 +79,12 @@ interface ShimmerProps {
 }
 
 export function Shimmer({ className, rounded = "rounded-xl" }: ShimmerProps) {
-  const reduceMotion = useReducedMotion();
-
   return (
     <motion.div
       aria-hidden
       initial={false}
-      animate={
-        reduceMotion
-          ? { backgroundPosition: "50% 0%" }
-          : { backgroundPosition: ["0% 0%", "100% 0%", "0% 0%"] }
-      }
-      transition={reduceMotion ? { duration: 0 } : { duration: 2, repeat: Infinity, ease: "linear" }}
+      animate={{ backgroundPosition: ["0% 0%", "100% 0%", "0% 0%"] }}
+      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
       style={{ backgroundSize: "200% 100%" }}
       className={cn(
         "bg-gradient-to-r from-zinc-200 via-zinc-100 to-zinc-200",

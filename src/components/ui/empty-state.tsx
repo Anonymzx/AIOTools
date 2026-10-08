@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface EmptyStateProps {
@@ -13,7 +13,6 @@ interface EmptyStateProps {
 }
 
 export function EmptyState({ icon, title, hint, action, className }: EmptyStateProps) {
-  const reduce = useReducedMotion();
   return (
     <div
       className={cn(
@@ -22,7 +21,7 @@ export function EmptyState({ icon, title, hint, action, className }: EmptyStateP
       )}
     >
       <motion.span
-        animate={reduce ? undefined : { y: [0, -6, 0] }}
+        animate={{ y: [0, -6, 0] }}
         transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
         className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950 dark:text-indigo-400"
         aria-hidden
@@ -33,7 +32,7 @@ export function EmptyState({ icon, title, hint, action, className }: EmptyStateP
         initial={{ opacity: 0, y: 8 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: reduce ? 0 : 0.25, ease: "easeOut", delay: reduce ? 0 : 0.05 }}
+        transition={{ duration: 0.25, ease: "easeOut", delay: 0.05 }}
         className="text-sm font-semibold text-zinc-900 dark:text-zinc-100"
       >
         {title}
@@ -43,7 +42,7 @@ export function EmptyState({ icon, title, hint, action, className }: EmptyStateP
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: reduce ? 0 : 0.25, ease: "easeOut", delay: reduce ? 0 : 0.12 }}
+          transition={{ duration: 0.25, ease: "easeOut", delay: 0.12 }}
           className="max-w-md text-xs leading-relaxed text-zinc-500 dark:text-zinc-400"
         >
           {hint}
@@ -54,7 +53,7 @@ export function EmptyState({ icon, title, hint, action, className }: EmptyStateP
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: reduce ? 0 : 0.25, ease: "easeOut", delay: reduce ? 0 : 0.18 }}
+          transition={{ duration: 0.25, ease: "easeOut", delay: 0.18 }}
           className="mt-1"
         >
           {action}

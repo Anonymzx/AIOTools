@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone, type Accept, type FileRejection } from "react-dropzone";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { UploadCloud, X, File as FileIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -69,7 +69,6 @@ export default function FileDropzone({
   helperText,
 }: FileDropzoneProps) {
   const { t } = useLocale();
-  const reduceMotion = useReducedMotion();
   const [items, setItems] = useState<SelectedFile[]>([]);
 
   // Revoke object URLs on unmount
@@ -192,8 +191,8 @@ export default function FileDropzone({
   return (
     <div className="w-full">
       <motion.div
-        whileHover={reduceMotion ? undefined : { scale: 1.01 }}
-        animate={isDragActive && !reduceMotion ? { scale: 1.02 } : { scale: 1 }}
+        whileHover={{ scale: 1.01 }}
+        animate={isDragActive ? { scale: 1.02 } : { scale: 1 }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
         className="relative rounded-xl"
       >
@@ -220,12 +219,12 @@ export default function FileDropzone({
         <input {...getInputProps()} />
         <motion.span
           animate={
-            isDragActive && !reduceMotion
+            isDragActive
               ? { y: [0, -10, 0], rotate: [0, -8, 8, 0] }
               : { y: 0, rotate: 0 }
           }
           transition={
-            isDragActive && !reduceMotion
+            isDragActive
               ? { duration: 0.9, repeat: Infinity, ease: "easeInOut" }
               : { duration: 0.2 }
           }
@@ -255,12 +254,12 @@ export default function FileDropzone({
               <motion.li
                 layout
                 key={`${it.file.name}-${it.file.size}-${i}`}
-                initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.9 }}
-                animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
-                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -100, scale: 0.9 }}
+                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, x: -100, scale: 0.9 }}
                 transition={{
                   duration: 0.25,
-                  delay: reduceMotion ? 0 : i * 0.05,
+                  delay: i * 0.05,
                   ease: "easeOut",
                 }}
                 className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-2.5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"

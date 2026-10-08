@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
@@ -41,7 +41,6 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     // Hooks must run unconditionally (hydration law) — decide branch after.
-    const reduce = useReducedMotion();
     if (asChild) {
       const Comp = Slot;
       return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
@@ -50,8 +49,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <motion.button
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-        whileHover={reduce ? {} : { scale: 1.02, y: -1 }}
-        whileTap={reduce ? {} : { scale: 0.97 }}
+        whileHover={{ scale: 1.02, y: -1 }}
+        whileTap={{ scale: 0.97 }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
         {...(props as React.ComponentProps<typeof motion.button>)}
       />

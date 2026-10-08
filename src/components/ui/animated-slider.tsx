@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
@@ -30,7 +30,6 @@ export function AnimatedSlider({
   id,
   className,
 }: AnimatedSliderProps): React.JSX.Element {
-  const reduce = useReducedMotion();
   const pct = max > min ? Math.min(100, Math.max(0, ((value - min) / (max - min)) * 100)) : 0;
   const display = format ? format(value) : String(value);
   const sliderId = id ?? `animated-slider-${label.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
@@ -45,7 +44,7 @@ export function AnimatedSlider({
           {display}
         </Badge>
       </div>
-      <motion.div whileTap={reduce ? {} : { scale: 0.995 }} className="mt-1">
+      <motion.div whileTap={{ scale: 0.995 }} className="mt-1">
         <input
           id={sliderId}
           type="range"
@@ -71,7 +70,7 @@ export function AnimatedSlider({
           <motion.div
             initial={false}
             animate={{ width: `${pct}%` }}
-            transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 30 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="h-full rounded-full bg-indigo-600 dark:bg-indigo-500"
           />
         </div>

@@ -487,9 +487,7 @@ export default function RecordPage() {
                     }
                     className="pointer-events-none absolute inset-0 rounded-xl ring-2 ring-indigo-600 ring-offset-2 ring-offset-white dark:ring-offset-zinc-950"
                     style={{
-                      boxShadow: reduceMotion
-                        ? undefined
-                        : "0 0 24px rgba(99, 102, 241, 0.35)",
+                      boxShadow: "0 0 24px rgba(99, 102, 241, 0.35)",
                     }}
                     aria-hidden
                   />

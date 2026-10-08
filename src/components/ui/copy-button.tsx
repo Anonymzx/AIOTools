@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Check, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -33,7 +33,6 @@ export function CopyButton({
   emptyMessage = "Nothing to copy yet.",
   errorMessage = "Failed to copy.",
 }: CopyButtonProps): React.JSX.Element {
-  const reduce = useReducedMotion();
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -68,10 +67,10 @@ export function CopyButton({
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
           key={copied ? "check" : "copy"}
-          initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.6, rotate: -30 }}
-          animate={reduce ? { opacity: 1 } : { opacity: 1, scale: 1, rotate: 0 }}
-          exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.6, rotate: 30 }}
-          transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 500, damping: 30 }}
+          initial={{ opacity: 0, scale: 0.6, rotate: -30 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          exit={{ opacity: 0, scale: 0.6, rotate: 30 }}
+          transition={{ type: "spring", stiffness: 500, damping: 30 }}
           className="inline-flex"
         >
           {copied ? <Check className="h-4 w-4" aria-hidden /> : <Copy className="h-4 w-4" aria-hidden />}

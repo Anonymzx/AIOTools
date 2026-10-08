@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import {
   Zap,
@@ -53,6 +53,52 @@ import {
   ScanText,
   Info,
   Wrench,
+  Calculator,
+  CalendarDays,
+  Cake,
+  Gauge,
+  Landmark,
+  Percent,
+  Receipt,
+  BadgePercent,
+  Globe2,
+  Clock,
+  Fingerprint,
+  WholeWord,
+  FileCode2,
+  FileDown,
+  FileJson2,
+  Database,
+  FileCog,
+  Table,
+  TableProperties,
+  Link2,
+  Link as LinkIcon,
+  ListX,
+  ArrowDownAZ,
+  Replace,
+  AppWindow,
+  Share2,
+  Laugh,
+  Palette,
+  PaintBucket,
+  Square,
+  Columns3,
+  Camera,
+  Sparkles,
+  Languages,
+  FileAudio,
+  FileVideo,
+  MonitorPlay,
+  Timer,
+  Keyboard,
+  AlarmClock,
+  Dices,
+  Sigma,
+  ChartLine,
+  Network,
+  ShieldCheck,
+  Globe,
   ChevronsLeft,
   ChevronsRight,
   Image,
@@ -111,6 +157,54 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   FileCode,
   ScanText,
   Info,
+  Calculator,
+  CalendarDays,
+  Cake,
+  Gauge,
+  Landmark,
+  Percent,
+  Receipt,
+  BadgePercent,
+  Globe2,
+  Clock,
+  Fingerprint,
+  WholeWord,
+  FileCode2,
+  FileDown,
+  FileJson2,
+  Database,
+  FileCog,
+  Table,
+  TableProperties,
+  Link2,
+  Link: LinkIcon,
+  ListX,
+  ArrowDownAZ,
+  Replace,
+  AppWindow,
+  Share2,
+  Laugh,
+  Palette,
+  PaintBucket,
+  Square,
+  Columns3,
+  Camera,
+  Sparkles,
+  Languages,
+  FileAudio,
+  FileVideo,
+  MonitorPlay,
+  Timer,
+  Keyboard,
+  AlarmClock,
+  Dices,
+  Sigma,
+  ChartLine,
+  Network,
+  ShieldCheck,
+  Globe,
+  Type,
+  Code2,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
@@ -119,6 +213,10 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   Type,
   Code2,
   Archive: Archive,
+  Calculator,
+  Palette,
+  MonitorPlay,
+  Timer,
 };
 
 const STORAGE_KEY = "aiotools-sidebar-collapsed";
@@ -133,7 +231,6 @@ export default function Sidebar(props: SidebarProps) {
   const { locale, t } = useLocale();
   const [internalCollapsed, setInternalCollapsed] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const reduceMotion = useReducedMotion();
 
   const isControlled = props.collapsed !== undefined;
   const collapsed = isControlled ? (props.collapsed as boolean) : internalCollapsed;
@@ -281,8 +378,8 @@ export default function Sidebar(props: SidebarProps) {
                   return (
                     <motion.li
                       key={tool.slug}
-                      whileHover={reduceMotion ? undefined : { x: 4 }}
-                      whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+                      whileHover={{ x: 4 }}
+                      whileTap={{ scale: 0.98 }}
                     >
                       <Link
                         href={href}
@@ -307,7 +404,7 @@ export default function Sidebar(props: SidebarProps) {
                         )}
                         <motion.span
                           className="flex shrink-0 items-center justify-center"
-                          whileHover={reduceMotion ? undefined : { rotate: 5, scale: 1.1 }}
+                           whileHover={{ rotate: 5, scale: 1.1 }}
                           transition={{ type: "spring", stiffness: 400, damping: 20 }}
                           aria-hidden
                         >

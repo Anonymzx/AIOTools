@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { Menu, Sun, Moon, Share2, Sparkles, ChevronRight, Globe, Check } from "lucide-react";
@@ -34,7 +34,6 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const pathname = usePathname();
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const reduce = useReducedMotion();
   const { locale, setLocale, t } = useLocale();
 
   useEffect(() => {
@@ -77,8 +76,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
           type="button"
           onClick={onMenuClick}
           aria-label={t.header.menu}
-          whileHover={reduce ? {} : { scale: 1.1 }}
-          whileTap={reduce ? {} : { scale: 0.9 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
           className="rounded-lg p-2 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 lg:hidden dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
         >
           <Menu className="h-5 w-5" aria-hidden />
@@ -132,8 +131,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
               <motion.button
                 type="button"
                 aria-label={t.header.language}
-                whileHover={reduce ? {} : { scale: 1.1 }}
-                whileTap={reduce ? {} : { scale: 0.9 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 className="inline-flex items-center gap-1 rounded-lg p-2 text-zinc-500 shadow-sm hover:bg-zinc-100 hover:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
               >
                 <Globe className="h-4 w-4" aria-hidden />
@@ -156,16 +155,16 @@ export default function Header({ onMenuClick }: HeaderProps) {
             type="button"
             onClick={toggleTheme}
             aria-label={isDark ? t.header.enableLight : t.header.enableDark}
-            whileHover={reduce ? {} : { scale: 1.1 }}
-            whileTap={reduce ? {} : { scale: 0.9 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             className="rounded-lg p-2 text-zinc-500 shadow-sm hover:bg-zinc-100 hover:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
                 key={!mounted ? "ssr-sun" : isDark ? "sun" : "moon"}
-                initial={reduce ? { opacity: 0 } : { opacity: 0, rotate: -90, scale: 0.5 }}
-                animate={reduce ? { opacity: 1 } : { opacity: 1, rotate: 0, scale: 1 }}
-                exit={reduce ? { opacity: 0 } : { opacity: 0, rotate: 90, scale: 0.5 }}
+                initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
+                animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
                 transition={{ duration: 0.25 }}
                 className="inline-flex"
               >
@@ -183,8 +182,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <motion.button
             type="button"
             onClick={handleShare}
-            whileHover={reduce ? {} : { scale: 1.1 }}
-            whileTap={reduce ? {} : { scale: 0.9 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             className={cn(
               "hidden items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-600 shadow-sm",
               "hover:border-indigo-300 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 sm:inline-flex",
@@ -197,8 +196,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
           <motion.span
             initial={false}
-            animate={reduce ? { scale: 1 } : { scale: [1, 1.04, 1] }}
-            transition={reduce ? { duration: 0 } : { duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ scale: [1, 1.04, 1] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
             className="inline-flex items-center gap-1 rounded-full bg-emerald-500 px-2.5 py-1 text-xs font-semibold text-white shadow-sm"
           >
             <Sparkles className="h-3 w-3" aria-hidden />

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import type { ElementType } from "react";
 
 interface TextRevealProps {
@@ -18,13 +18,7 @@ export default function TextReveal({
   stagger = 0.04,
   className,
 }: TextRevealProps): React.JSX.Element {
-  const reduce = useReducedMotion();
   const words = text.split(/\s+/).filter(Boolean);
-
-  if (reduce) {
-    const Plain = Tag as ElementType;
-    return <Plain className={className}>{text}</Plain>;
-  }
 
   const MotionTag = motion(Tag as ElementType);
 
