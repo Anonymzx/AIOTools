@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
-import { Menu, Sun, Moon, Share2, Sparkles, ChevronRight, Globe, Check, Coffee } from "lucide-react";
+import { Menu, Sun, Moon, Share2, Sparkles, ChevronRight, Globe, Check } from "lucide-react";
 import { toast } from "sonner";
 import { useLocale } from "@/lib/i18n/store";
 import type { Locale } from "@/lib/i18n/dictionaries";
@@ -160,19 +160,6 @@ export default function Header({ onMenuClick }: HeaderProps) {
             className="rounded-lg p-2 text-zinc-500 shadow-sm hover:bg-zinc-100 hover:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
           >
             <AnimatePresence mode="wait" initial={false}>
-          <motion.a
-            href="https://ko-fi.com/anonymzx"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={locale === "id" ? "Dukung via Ko-fi" : "Support via Ko-fi"}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="hidden items-center gap-1.5 rounded-full bg-amber-400 px-3 py-1.5 text-xs font-semibold text-zinc-950 shadow-sm hover:bg-amber-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 sm:inline-flex dark:bg-amber-400 dark:hover:bg-amber-300"
-          >
-            <Coffee className="h-3.5 w-3.5" aria-hidden />
-            Ko-fi
-          </motion.a>
-
           <motion.span
                 key={!mounted ? "ssr-sun" : isDark ? "sun" : "moon"}
                 initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
