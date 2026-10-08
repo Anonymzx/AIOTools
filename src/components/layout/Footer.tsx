@@ -2,9 +2,18 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Zap, ShieldCheck } from "lucide-react";
+import { Zap, ShieldCheck, Code2, AtSign, MessageCircle, Briefcase, Coffee } from "lucide-react";
 import { categories, tools, getCategoryName } from "@/lib/tools-config";
 import { useLocale } from "@/lib/i18n/store";
+
+const SOCIALS = [
+  { href: "https://github.com/Anonymzx", label: "GitHub", Icon: Code2 },
+  { href: "https://instagram.com/_mhmdthoriq_", label: "Instagram", Icon: AtSign },
+  { href: "https://wa.me/6285892844703", label: "WhatsApp", Icon: MessageCircle },
+  { href: "https://www.linkedin.com/in/mhmdthoriq/", label: "LinkedIn", Icon: Briefcase },
+] as const;
+
+const KOFI_URL = "https://ko-fi.com/anonymzx";
 
 const LINK_CLS =
   "group relative rounded text-zinc-600 hover:text-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:text-zinc-300 dark:hover:text-indigo-400";
@@ -43,6 +52,34 @@ export default function Footer() {
             <ShieldCheck className="h-3.5 w-3.5" aria-hidden />
             {t.footer.privacyNote}
           </p>
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            {SOCIALS.map(({ href, label, Icon }) => (
+              <motion.a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                whileHover={{ scale: 1.05, y: -1 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 px-2.5 py-1.5 text-xs font-medium text-zinc-600 shadow-sm hover:border-indigo-300 hover:text-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:border-zinc-800 dark:text-zinc-300 dark:hover:border-indigo-700 dark:hover:text-indigo-400"
+              >
+                <Icon className="h-3.5 w-3.5" aria-hidden />
+                {label}
+              </motion.a>
+            ))}
+          </div>
+          <motion.a
+            href={KOFI_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-amber-400 px-3 py-1.5 text-xs font-semibold text-zinc-950 shadow-sm hover:bg-amber-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 dark:bg-amber-400 dark:hover:bg-amber-300"
+          >
+            <Coffee className="h-3.5 w-3.5" aria-hidden />
+            {locale === "id" ? "Dukung via Ko-fi" : "Support via Ko-fi"}
+          </motion.a>
         </div>
 
         {/* Categories */}

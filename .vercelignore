@@ -1,0 +1,6 @@
+# Skip from Vercel deploy payload (not needed at runtime)
+graphify-out/
+.opencode/
+docs/screenshots/
+*.log
+.env*.local

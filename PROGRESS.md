@@ -43,7 +43,7 @@
 - Fase 24 Web/SEO generators tools 15-20 (2026-10-07): developer/meta-tags (9 inputs + live head snippet + copy/download + FB/X previews) + developer/robots-generator (visual rows + raw-text two-way sync + sitemap line) + developer/sitemap-generator (validate/dedupe/cap-1000 + freq/priority/lastmod + XML escape) + developer/htaccess-generator (8 toggles + staging warning) + developer/ip-info (ipapi.co→ipwho.is fallback, UA/screen device cards, manual-IP mode) + developer/user-agent (effect UA read, browser/OS/device/engine/bot parse, custom UA, copy JSON); local STR EN/ID + ToolLayout + 3 FAQs + "use client", no metadata, 0 deps; tools-config.ts untouched; fix `};`→`];` FAQ-close typo di ip-info; `tsc` 0 untuk 6 file milik sendiri (3 error pre-existing di file agen paralel: graph-plotter, random-generator, typing-test — tak disentuh)
 
 ## 🚧 In Progress
-- None — Fase 1–26 selesai (100 tools), siap review user
+- None — Fase 1–26 selesai (100 tools) + social/Ko-fi terpasang, siap deploy
 
 ## FASE 23 Media ffmpeg.wasm (2026-10-07, pkg →0.11.0)
 - NEW src/lib/ffmpeg.ts (singleton+concurrency guard, toBlobURL CDN @ffmpeg/core 0.12.9, ST core, FFmpegCompatError, terminate/revoke)
